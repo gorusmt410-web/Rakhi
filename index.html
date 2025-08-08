@@ -130,7 +130,8 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 10px;
+            /* Added padding to avoid overlap with ads */
+            padding: 60px 10px; 
         }
 
         #title {
@@ -178,7 +179,7 @@
 
         #rakhi-img {
             max-width: 90%;
-            width: 200px; /* Base size */
+            width: 180px; /* Slightly smaller to fit between ads */
             height: auto;
             border-radius: 20px;
             animation: rakhi-pulse 4s ease-in-out infinite, gradient-shadow 6s linear infinite;
@@ -199,7 +200,7 @@
         }
 
         #greeting-message {
-            font-size: clamp(1.2rem, 3.5vw, 2rem);
+            font-size: clamp(1.1rem, 3vw, 1.8rem);
             margin: 15px 10px;
             padding: 10px 20px;
             border-radius: 15px;
@@ -250,7 +251,7 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
             width: 100%;
             padding: 0 15px;
         }
@@ -392,15 +393,22 @@
         }
         
         /* ===== START: ADS CSS CODE ===== */
-        #ad-container {
+        #ad-container-top, #ad-container-bottom {
             position: absolute;
-            bottom: 5px;
             left: 50%;
             transform: translateX(-50%);
             width: 320px;
             height: 50px;
-            z-index: 50; /* Ensure it's above background effects */
+            z-index: 50;
             max-width: 100%;
+        }
+
+        #ad-container-top {
+            top: 5px; /* Position at the top */
+        }
+
+        #ad-container-bottom {
+            bottom: 5px; /* Position at the bottom */
         }
         /* ===== END: ADS CSS CODE ===== */
 
@@ -425,6 +433,21 @@
         <div id="falling-container"></div>
         <div id="balloon-container"></div>
 
+        <!-- ===== START: TOP ADS CONTAINER ===== -->
+        <div id="ad-container-top">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'b403c595b625776bbf3b5d127928fefa',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/b403c595b625776bbf3b5d127928fefa/invoke.js"></script>
+        </div>
+        <!-- ===== END: TOP ADS CONTAINER ===== -->
+
         <div class="celebration-content">
             <h1 id="title">Happy Raksha Bandhan</h1>
 
@@ -442,7 +465,7 @@
                 </div>
                 <div class="button-group">
                      <!-- 👇👇 PASTE YOUR AMAZON AFFILIATE LINK BELOW 👇👇 -->
-                    <a href="https://amzn.to/4orRUQc" target="_blank" class="gift-button">
+                    <a href="https://amzn.to/3UQA4ss" target="_blank" class="gift-button">
                         🎁 Special Rakhi Gifts 🎁 👆
                     </a>
                     <a href="#" id="whatsapp-share" class="share-button">
@@ -455,8 +478,8 @@
             </div>
         </div>
         
-        <!-- ===== START: ADS CONTAINER ===== -->
-        <div id="ad-container">
+        <!-- ===== START: BOTTOM ADS CONTAINER ===== -->
+        <div id="ad-container-bottom">
             <script type="text/javascript">
                 atOptions = {
                     'key' : 'b403c595b625776bbf3b5d127928fefa',
@@ -468,7 +491,7 @@
             </script>
             <script type="text/javascript" src="//www.highperformanceformat.com/b403c595b625776bbf3b5d127928fefa/invoke.js"></script>
         </div>
-        <!-- ===== END: ADS CONTAINER ===== -->
+        <!-- ===== END: BOTTOM ADS CONTAINER ===== -->
 
     </div>
 
@@ -567,6 +590,7 @@
             const particles = [];
             function drawMusicReactiveEffects() {
                 requestAnimationFrame(drawMusicReactiveEffects);
+                if (!analyser) return;
                 analyser.getByteFrequencyData(dataArray);
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -574,7 +598,6 @@
                 let totalVolume = dataArray.reduce((sum, value) => sum + value, 0);
                 let averageVolume = totalVolume / dataArray.length;
                 
-                // Create particles based on bass beats (lower frequencies)
                 let bass = dataArray.slice(0, 5).reduce((s,v) => s+v, 0) / 5;
                 if (bass > 150 && Math.random() > 0.95) {
                      for(let i=0; i < 5; i++){
@@ -621,7 +644,6 @@
 
             // 7. Continuous Ambient Effects (Flowers & Balloons)
             const startContinuousEffects = () => {
-                // Falling Flowers
                 const flowerEmojis = ['🌸', '🌺', '🏵️', '🌼', '🌷', '💐', '💖', '✨', '💎'];
                 setInterval(() => {
                     const flower = document.createElement('div');
@@ -635,18 +657,17 @@
 
                     setTimeout(() => {
                         flower.remove();
-                    }, 10000); // Remove after animation ends
-                }, 800); // Reduced density
+                    }, 10000);
+                }, 800);
 
-                // Glowing Balloons
                 setInterval(() => {
                     const balloon = document.createElement('div');
                     balloon.classList.add('glowing-balloon');
                     
-                    const size = Math.random() * 40 + 30; // 30px to 70px
+                    const size = Math.random() * 40 + 30;
                     const color = `hsl(${Math.random() * 360}, 90%, 60%)`;
-                    const duration = Math.random() * 10 + 10; // 10s to 20s
-                    const sway = (Math.random() - 0.5) * 150; // horizontal sway
+                    const duration = Math.random() * 10 + 10;
+                    const sway = (Math.random() - 0.5) * 150;
 
                     balloon.style.width = `${size}px`;
                     balloon.style.height = `${size * 1.2}px`;
@@ -654,7 +675,6 @@
                     balloon.style.backgroundColor = color;
                     balloon.style.boxShadow = `0 0 15px ${color}, 0 0 25px ${color}`;
                     
-                    // Create a dynamic animation
                     const animationName = `drift_up_${Date.now()}`;
                     const styleSheet = document.styleSheets[0];
                     styleSheet.insertRule(`
@@ -678,13 +698,11 @@
 
             // --- Event Listeners ---
             
-            // Reveal button click
             revealButton.addEventListener('click', () => {
-                revealButton.disabled = true; // Prevent multiple clicks
+                revealButton.disabled = true;
                 revealCelebration();
-            }, { once: true }); // Ensure it only runs once
+            }, { once: true });
             
-            // Input field listeners
             nameInput.addEventListener('input', (e) => {
                 senderName = e.target.value.trim() || 'Someone';
                 senderNameEl.textContent = senderName;
@@ -697,7 +715,6 @@
                 updateShareLink();
             });
             
-            // Window resize handler for canvas
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
